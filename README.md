@@ -16,10 +16,7 @@ To load different historical perspectives:
 
 ### Enable platforms
 
-```diff
-- clients: [],
-+ clients: ["twitter", "discord"],
-```
+Enable the use of platforms by adding them to the `clients` array in `src/character.ts`.
 
 ## Environment Setup
 
@@ -33,23 +30,7 @@ cp .env.example .env
 
 ### Configure platform credentials
 
-```diff
--DISCORD_APPLICATION_ID=
--DISCORD_API_TOKEN= # Bot token
-+DISCORD_APPLICATION_ID="000000772361146438"
-+DISCORD_API_TOKEN="OTk1MTU1NzcyMzYxMT000000.000000.00000000000000000000000000000000"
-
-# Required - Add your Sora API key
--SORA_API_KEY=
-+SORA_API_KEY="sk-xx-xx-xxx"  # Required for video generation functionality
-
--TWITTER_USERNAME= # Account username
--TWITTER_PASSWORD= # Account password
--TWITTER_EMAIL= # Account email
-+TWITTER_USERNAME="username"  # Optional
-+TWITTER_PASSWORD="password"  # Optional
-+TWITTER_EMAIL="your@email.com"  # Optional
-```
+Add your platform credentials to the .env file.
 
 > **Note**: The SORA_API_KEY is required for the core video generation functionality. Other platform credentials are optional depending on which platforms you want to enable.
 
