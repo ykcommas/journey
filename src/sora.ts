@@ -1,6 +1,16 @@
 import axios from 'axios';
 
-export const generateVideo = async (prompt: string, token: string): Promise<string> => {
+interface SoraConfig {
+  cookie?: string;
+  referer?: string;
+  origin?: string;
+}
+
+export const generateVideo = async (
+  prompt: string, 
+  token: string,
+  config: SoraConfig = {}
+): Promise<string> => {
   const baseUrl = "https://sora.com/backend";
   const payload = {
     type: "video_gen",
@@ -14,15 +24,22 @@ export const generateVideo = async (prompt: string, token: string): Promise<stri
     inpaint_items: []
   };
 
+  // Default headers with optional overrides
+  const headers = {
+    "Accept": "*/*",
+    "Accept-Encoding": "gzip, deflate, br, zstd",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Authorization": `Bearer ${token}`,
+    "Content-Type": "application/json",
+    "Cookie": config.cookie || "",
+    "Origin": config.origin || "https://sora.com",
+    "Referer": config.referer || "https://sora.com/library",
+  };
+
   try {
     // Initial video generation request
     const genResponse = await axios.post(`${baseUrl}/video_gen`, payload, {
-      headers: {
-        "Accept": "*/*",
-        "Accept-Encoding": "gzip, deflate, br, zstd",
-        "Accept-Language": "en-US,en;q=0.9",
-        "Authorization": `Bearer ${token}`
-      }
+      headers
     });
 
     const videoKey = genResponse.data.video_key;
@@ -32,7 +49,8 @@ export const generateVideo = async (prompt: string, token: string): Promise<stri
       const completionResponse = await axios.get(`${baseUrl}/video_completion`, {
         params: { video_key: videoKey },
         headers: {
-          "Authorization": `Bearer ${token}`
+          "Authorization": `Bearer ${token}`,
+          "Cookie": config.cookie || "",
         }
       });
 

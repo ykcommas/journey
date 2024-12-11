@@ -50,22 +50,32 @@ The Sora API integration allows you to generate high-quality historical videos p
 
 ```typescript
 import { generateVideo } from './src/sora';
-
-// Generate a video with your API key
 const videoUrl = await generateVideo(
   "Ancient Rome's Forum during a busy market day in 150 AD",
-  process.env.SORA_API_KEY
+  process.env.SORA_API_KEY,
+  {
+    cookie: "session_cookie_value",
+    referer: "https://sora.com/custom-page",
+    origin: "https://sora.com"
+  }
 );
 ```
 
 ### API Configuration
 
+#### Video Parameters
 The video generation supports the following parameters:
 - `height`: Video height in pixels (default: 480)
 - `width`: Video width in pixels (default: 854)
 - `style`: Visual style ("natural" by default)
 - `n_frames`: Number of frames to generate (default: 150)
 - `n_variants`: Number of video variants to generate (default: 2)
+
+#### Request Configuration
+Optional configuration parameters:
+- `cookie`: Custom cookie value for authentication
+- `referer`: Custom referer URL
+- `origin`: Custom origin URL
 
 ### Response Handling
 
@@ -78,7 +88,11 @@ The API returns a video URL after successful generation. The process is asynchro
 
 ```typescript
 try {
-  const videoUrl = await generateVideo(prompt, apiKey);
+  const videoUrl = await generateVideo(
+    prompt, 
+    apiKey,
+    { cookie: "my_session_cookie" }
+  );
   console.log("Video generated:", videoUrl);
 } catch (error) {
   console.error("Generation failed:", error);
