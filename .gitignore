@@ -1,0 +1,10 @@
+*.ts
+!index.ts
+!character.ts
+!sora.ts
+.env
+node_modules
+
+db.sqlite
+*.character.json
+.DS_Store
